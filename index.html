@@ -3,25 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amém</title>
+    <title>Form</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <form>
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome">
+    <div
+        style="
+            padding: 24px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 1250px;
+            background-color: #f1f5f9;
+            border-radius: 8px;
+        "
+    >
+        <h2>Cadastro de participante</h2>
+        <form id="form">
 
-        <label for="email">E-mail:</label>
-        <input type="email" id="email">
+            <div class="form-group">
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="name" placeholder="Nome do aluno" required>
+            </div>
 
-        <button>Enviar</button>
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" placeholder="aluno@email.com" required>
+            </div>
 
-        <table>
+            <div>
+                <label for="areaInteresse">Área de interesse:</label>
+                <select name="areaInteresse" id="areaInteresse">
+                    <option value="" selected disabled>Selecione</option>
+                    <option value="1">Front-end</option>
+                    <option value="2">Back-end</option>
+                    <option value="3">Full-stack</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="turno">Turno</label>
+                <input type="radio" value="manha" id="turno" name="turno"> Manhã
+                <input type="radio" value="tarde" id="turno" name="turno"> Tarde
+                <input type="radio" value="noite" id="turno" name="turno"> Noite
+            </div>
+
+            <div>
+                <input type="checkbox" id="confirmacao"> Confirmo os dados informados
+            </div>
+
+            <button type="submit" class="form-btn">Enviar</button>
+        </form>
+    </div>
+
+    <div class="table-container">
+        <table class="table">
             <thead>
                 <tr>
-                    <th></th>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Área</th>
+                    <th>Turno</th>
+                    <th>Presença</th>
+                    <th>Situação</th>
                 </tr>
             </thead>
+            <tbody id="table-body">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
         </table>
-    </form>
+    </div>
+
+    <script>
+        const form = document.getElementById("form");
+        const tableBody = document.getElementById("table-body");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const nome = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const area = document.getElementById("areaInteresse").value;
+            const turnoSelected = document.querySelector('input[name="turno"]:checked');
+
+            const turno = turnoSelected ? turnoSelected.value : "";
+
+            const novaLinha = document.createElement("tr");
+
+            novaLinha.innerHTML = `
+                <td>${nome}</td>
+                <td>${email}</td>
+                <td>${area}</td>
+                <td>${turno}</td>
+                <td><input type="checkbox">Presente</td>
+                <td>
+                    <select>
+                        <option value="">Selecione</option>
+                        <option value="ativo">Ativo</option>
+                        <option value="pendente">Pendente</option>
+                    </select>
+                </td>
+            `;
+
+            tableBody.appendChild(novaLinha);
+
+            form.reset();
+        });
+    </script>
 </body>
 </html>
